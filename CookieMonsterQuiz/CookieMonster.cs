@@ -22,6 +22,7 @@ namespace CookieMonsterQuiz
             var initialEntryCell = _cookieForestParser.FindInitialEntryTile(cookieMonsterTiles);
 
             var completedMaze = _cookieForestParser.HasCompletedMaze(cookieMonsterTiles, initialEntryCell);
+
             return null;
         }
     }

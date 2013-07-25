@@ -34,7 +34,7 @@ namespace CookieMonsterQuiz
 
         public bool HasCompletedMaze(List<CookieForestTile> cookieForestTiles, CookieForestTile currentTile)
         {
-            throw new NotImplementedException();
+            return cookieForestTiles.Max(c => c.X) == currentTile.X;
         }
     }
 }
