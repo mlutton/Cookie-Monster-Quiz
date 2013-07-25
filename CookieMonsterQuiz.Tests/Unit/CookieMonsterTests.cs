@@ -60,6 +60,9 @@ namespace CookieMonsterQuiz.Tests.Unit
             var pathResult = _cookieMonster.FindPathThroughForest(_oneByOneForest);
 
            Assert.That(pathResult, Has.Count.EqualTo(1));
+
+           Assert.That(pathResult.First().X, Is.EqualTo(CookieForestParser.InitialXPosition));
+           Assert.That(pathResult.First().Y, Is.EqualTo(CookieForestParser.InitialYPosition));
         }
 
         [Test]
