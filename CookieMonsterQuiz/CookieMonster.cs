@@ -23,26 +23,25 @@ namespace CookieMonsterQuiz
 
             var availableForestTiles = cookieMonsterTiles.ToList();
 
-            var initialEntryCell = _cookieForestParser.FindInitialEntryTile(cookieMonsterTiles);
+            var nextAvailableMove = _cookieForestParser.FindInitialEntryTile(cookieMonsterTiles);
 
             var cookieForestPath = new LinkedList<CookieForestTile>();
-            cookieForestPath.AddLast(initialEntryCell);
 
-            if (_cookieForestParser.HasCompletedMaze(availableForestTiles, cookieForestPath.Last()))
+            while (nextAvailableMove != null)
             {
-                return cookieForestPath;
-            }
+                cookieForestPath.AddLast(nextAvailableMove);
 
-            var findNextPossiblePathResult = _cookieForestParser.FindNextPossiblePath(cookieMonsterTiles,
-                cookieForestPath);
+                if (_cookieForestParser.HasCompletedMaze(availableForestTiles, cookieForestPath.Last()))
+                {
+                    return cookieForestPath;
+                }
 
-            availableForestTiles = findNextPossiblePathResult.AvailableTiles;
+                var findNextPossiblePathResult = _cookieForestParser.FindNextPossiblePath(cookieMonsterTiles,
+                    cookieForestPath);
 
-            cookieForestPath.AddLast(findNextPossiblePathResult.NextTile);
+                availableForestTiles = findNextPossiblePathResult.AvailableTiles;
 
-            if (_cookieForestParser.HasCompletedMaze(availableForestTiles, cookieForestPath.Last()))
-            {
-                return cookieForestPath;
+                nextAvailableMove = findNextPossiblePathResult.NextTile;
             }
 
             return null;
