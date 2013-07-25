@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CookieMonsterQuiz.Utilities;
 
 namespace CookieMonsterQuiz
 {
@@ -10,7 +11,7 @@ namespace CookieMonsterQuiz
         CookieForestTile FindInitialEntryTile(List<CookieForestTile> cookieMonsterTiles);
         bool HasCompletedMaze(List<CookieForestTile> cookieForestTiles, CookieForestTile currentTile);
 
-        FindNextPossiblePathResult FindNextPossiblePath(List<CookieForestTile> list, LinkedList<CookieForestTile> currentPathThroughForestTiles);
+        FindNextPossiblePathResult FindNextPossiblePath(List<CookieForestTile> cookieForestTiles, LinkedList<CookieForestTile> currentPathThroughForestTiles);
     }
 
     public class FindNextPossiblePathResult
@@ -44,9 +45,46 @@ namespace CookieMonsterQuiz
             return cookieForestTiles.Max(c => c.X) == currentTile.X;
         }
 
-        public FindNextPossiblePathResult FindNextPossiblePath(List<CookieForestTile> list, LinkedList<CookieForestTile> currentPathThroughForestTiles)
+        public FindNextPossiblePathResult FindNextPossiblePath(List<CookieForestTile> cookieForestTiles, LinkedList<CookieForestTile> currentPathThroughForestTiles)
         {
-            throw new NotImplementedException();
+            var result = new FindNextPossiblePathResult();
+            var currentTile = currentPathThroughForestTiles.Last();
+
+            var tileToRight =
+                cookieForestTiles.FirstOrDefault(
+                    c =>
+                        c.X == currentTile.GetXCoordinateToRight() && c.Y == currentTile.Y &&
+                        c.CookieCount != CookieForestTile.TileHasThorns);
+
+            var tileToBottom =
+                cookieForestTiles.FirstOrDefault(
+                    c =>
+                        c.Y == currentTile.GetYCoordinateToBottom() &&
+                        c.X == currentTile.X & c.CookieCount != CookieForestTile.TileHasThorns);
+
+
+            if (tileToRight != null && tileToBottom == null)
+            {
+                result.NextTile = tileToRight;
+            }
+
+
+            else if (tileToBottom != null && tileToRight == null)
+            {
+                result.NextTile = tileToBottom;
+            }
+
+            else if (tileToRight.CookieCount > tileToBottom.CookieCount)
+            {
+                result.NextTile = tileToRight;
+            }
+            
+            else if (tileToBottom.CookieCount >= tileToRight.CookieCount)
+            {
+                result.NextTile = tileToBottom;
+            }
+
+            return result;
         }
     }
 }
