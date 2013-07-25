@@ -12,6 +12,7 @@ namespace CookieMonsterQuiz.Tests.Unit
     {
         private Mock<ICookieForestParser> _cookieForestParserMock;
         private CookieMonster _cookieMonster;
+
         private List<CookieForestTile> _oneByOneForest;
         private List<CookieForestTile> _twoByTwoForest;
         
@@ -20,31 +21,51 @@ namespace CookieMonsterQuiz.Tests.Unit
         {
             _cookieForestParserMock = new Mock<ICookieForestParser>();
 
-            _cookieForestParserMock.Setup(cf => cf.FindInitialEntryTile(It.IsAny<List<CookieForestTile>>()))
-                .Returns((List<CookieForestTile> list) => list.First());
-
-            _cookieForestParserMock.Setup(
-                cf => cf.HasCompletedMaze(It.IsAny<List<CookieForestTile>>(), It.IsAny<CookieForestTile>()))
-                .Returns(
-                    (List<CookieForestTile> tileList, CookieForestTile tile) =>
-                        tileList.Max(t => t.X) == tile.X);
+            SetupParserMockToReturnFirstElementForFindInitialEntryTile();
+            SetupParseMockToDynamicallyReturnTrueFalseOnHasCompletedMaze();
 
             _oneByOneForest = ForestBuilder.BuildForestOfSize(1, 1);
             _twoByTwoForest = ForestBuilder.BuildForestOfSize(2, 2);
 
+            var currentPathForTwoByTwoForest = CreateCurrentPathForTwoByTwoForest();
+
+            SetupParserToReturnNextElementOnTwoByTwoForest(currentPathForTwoByTwoForest);
+
+            _cookieMonster = new CookieMonster(_cookieForestParserMock.Object);
+
+        }
+
+        private LinkedList<CookieForestTile> CreateCurrentPathForTwoByTwoForest()
+        {
             var currentPathForTwoByTwoForest = new LinkedList<CookieForestTile>();
             currentPathForTwoByTwoForest.AddLast(_twoByTwoForest.ElementAtCoordinates(1, 1));
             currentPathForTwoByTwoForest.AddLast(_twoByTwoForest.ElementAtCoordinates(2, 1));
+            return currentPathForTwoByTwoForest;
+        }
 
+        private void SetupParserToReturnNextElementOnTwoByTwoForest(LinkedList<CookieForestTile> currentPathForTwoByTwoForest)
+        {
             _cookieForestParserMock.Setup(
                 cf =>
                     cf.FindNextPossiblePath(It.IsAny<List<CookieForestTile>>(), It.IsAny<LinkedList<CookieForestTile>>()))
                 .Returns(
                     (List<CookieForestTile> tileList, LinkedList<CookieForestTile> currentPath) =>
-                        new FindNextPossiblePathResult() { CurrentPath =currentPathForTwoByTwoForest, AvailableTiles = tileList});
+                        new FindNextPossiblePathResult() {CurrentPath = currentPathForTwoByTwoForest, AvailableTiles = tileList});
+        }
 
-            _cookieMonster = new CookieMonster(_cookieForestParserMock.Object);
+        private void SetupParseMockToDynamicallyReturnTrueFalseOnHasCompletedMaze()
+        {
+            _cookieForestParserMock.Setup(
+                cf => cf.HasCompletedMaze(It.IsAny<List<CookieForestTile>>(), It.IsAny<CookieForestTile>()))
+                .Returns(
+                    (List<CookieForestTile> tileList, CookieForestTile tile) =>
+                        tileList.Max(t => t.X) == tile.X);
+        }
 
+        private void SetupParserMockToReturnFirstElementForFindInitialEntryTile()
+        {
+            _cookieForestParserMock.Setup(cf => cf.FindInitialEntryTile(It.IsAny<List<CookieForestTile>>()))
+                .Returns((List<CookieForestTile> list) => list.First());
         }
 
         [Test]
