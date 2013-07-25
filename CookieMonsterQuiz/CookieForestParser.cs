@@ -17,7 +17,9 @@ namespace CookieMonsterQuiz
             if (cookieMonsterTiles == null) throw new ArgumentNullException("cookieMonsterTiles",
                 "You can not pass in null into FindInitialEntryTile. Please pass in a valid list of tiles.");
 
-            var entryPointTile = cookieMonsterTiles.FirstOrDefault(cft => cft.X == 1 && cft.Y == 1);
+            var entryPointTile =
+                cookieMonsterTiles.FirstOrDefault(
+                    cft => cft.X == 1 && cft.Y == 1 && cft.CookieCount != CookieMonsterTile.TileHasThorns);
 
             if (entryPointTile == null) throw new ArgumentOutOfRangeException("cookieMonsterTiles",
                 "You passed in an invalid list of tiles into FindInitialEntryTile. " +

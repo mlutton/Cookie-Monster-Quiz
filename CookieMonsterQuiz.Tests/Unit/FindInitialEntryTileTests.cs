@@ -34,5 +34,18 @@ namespace CookieMonsterQuiz.Tests.Unit
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => cookieForestParser.FindInitialEntryTile(invalidOneByOneForest));
         }
+
+        [Test]
+        public void TestThatFindInitialEntryTileThrowsWhenPassingInAValidTileInTheListThatHasThorns()
+        {
+            var cookieForestParser = new CookieForestParser();
+            var validOneByOneForestWithThorns = new List<CookieMonsterTile>
+            {
+                new CookieMonsterTile() {X = 1, Y = 1, CookieCount = CookieMonsterTile.TileHasThorns}
+            };
+
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => cookieForestParser.FindInitialEntryTile(validOneByOneForestWithThorns));
+        }
     }
 }
