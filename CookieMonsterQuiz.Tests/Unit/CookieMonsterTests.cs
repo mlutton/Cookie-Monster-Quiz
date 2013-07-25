@@ -8,23 +8,36 @@ namespace CookieMonsterQuiz.Tests.Unit
     [TestFixture]
     class CookieMonsterTests
     {
+        private Mock<ICookieForestParser> _cookieForestParserMock;
+        private CookieMonster _cookieMonster;
+
+        [SetUp]
+        public void Setup()
+        {
+            _cookieForestParserMock = new Mock<ICookieForestParser>();
+            _cookieMonster = new CookieMonster(_cookieForestParserMock.Object);
+        }
+
         [Test]
         public void TestThatFindPathThroughForestThrowsWhenPassingInNull()
         {
-            var cookieForestParserMock = new Mock<ICookieForestParser>();
-            var cookieMonster = new CookieMonster(cookieForestParserMock.Object);
-
-            Assert.Throws<ArgumentNullException>(() => cookieMonster.FindPathThroughForest(null));
+            Assert.Throws<ArgumentNullException>(() => _cookieMonster.FindPathThroughForest(null));
         }
 
         [Test]
         public void TestThatFindPathThroughForestCallsFindInitialEntryLocation()
         {
-            var cookieForestParserMock = new Mock<ICookieForestParser>();
-            var cookieMonster = new CookieMonster(cookieForestParserMock.Object);
+            _cookieMonster.FindPathThroughForest(new List<CookieForestTile>());
+            
+            _cookieForestParserMock.Verify(c => c.FindInitialEntryTile(It.IsAny<List<CookieForestTile>>()));   
+        }
 
-            cookieMonster.FindPathThroughForest(new List<CookieForestTile>());
-            cookieForestParserMock.Verify(c => c.FindInitialEntryTile(It.IsAny<List<CookieForestTile>>()));   
+        [Test]
+        public void TestThatFindPathThroughForestCallsHasCompletedMaze()
+        {
+            _cookieMonster.FindPathThroughForest(new List<CookieForestTile>());
+
+            _cookieForestParserMock.Verify(c => c.HasCompletedMaze(It.IsAny<List<CookieForestTile>>(), It.IsAny<CookieForestTile>()));
         }
     }
 }

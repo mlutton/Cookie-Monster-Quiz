@@ -8,6 +8,7 @@ namespace CookieMonsterQuiz
     public interface ICookieForestParser
     {
         CookieForestTile FindInitialEntryTile(List<CookieForestTile> cookieMonsterTiles);
+        bool HasCompletedMaze(List<CookieForestTile> cookieForestTiles, CookieForestTile currentTile);
     }
 
     public class CookieForestParser: ICookieForestParser
@@ -29,6 +30,11 @@ namespace CookieMonsterQuiz
                 "Please pass in a valid list of tiles with one at X,Y coordinate 1,1.");
 
             return entryPointTile;
+        }
+
+        public bool HasCompletedMaze(List<CookieForestTile> cookieForestTiles, CookieForestTile currentTile)
+        {
+            throw new NotImplementedException();
         }
     }
 }

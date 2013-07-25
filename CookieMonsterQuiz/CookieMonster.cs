@@ -19,7 +19,9 @@ namespace CookieMonsterQuiz
                throw new ArgumentNullException("cookieMonsterTiles", "You can not pass null into FindPathThroughForest. " +
                    " Please pass in a valid list of cookie monster tiles");
 
-            var initialEntryCell = _cookieForestParser.FindInitialEntryTile(new List<CookieForestTile>());
+            var initialEntryCell = _cookieForestParser.FindInitialEntryTile(cookieMonsterTiles);
+
+            var completedMaze = _cookieForestParser.HasCompletedMaze(cookieMonsterTiles, initialEntryCell);
             return null;
         }
     }
