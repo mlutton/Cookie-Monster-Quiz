@@ -48,6 +48,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\CookieMonsterTests.cs" />
     <Compile Include="Unit\FindInitialEntryTileTests.cs" />
+    <Compile Include="Utilities\CookieForestListExtensions.cs" />
+    <Compile Include="Utilities\CookieForestTileExtensions.cs" />
+    <Compile Include="Utilities\ForestBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

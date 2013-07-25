@@ -41,7 +41,7 @@
   <ItemGroup>
     <Compile Include="CookieForestParser.cs" />
     <Compile Include="CookieMonster.cs" />
-    <Compile Include="CookieMonsterTile.cs" />
+    <Compile Include="CookieForestTile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

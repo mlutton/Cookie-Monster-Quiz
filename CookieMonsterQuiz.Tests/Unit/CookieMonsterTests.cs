@@ -23,8 +23,8 @@ namespace CookieMonsterQuiz.Tests.Unit
             var cookieForestParserMock = new Mock<ICookieForestParser>();
             var cookieMonster = new CookieMonster(cookieForestParserMock.Object);
 
-            cookieMonster.FindPathThroughForest(new List<CookieMonsterTile>());
-            cookieForestParserMock.Verify(c => c.FindInitialEntryTile(It.IsAny<List<CookieMonsterTile>>()));   
+            cookieMonster.FindPathThroughForest(new List<CookieForestTile>());
+            cookieForestParserMock.Verify(c => c.FindInitialEntryTile(It.IsAny<List<CookieForestTile>>()));   
         }
     }
 }

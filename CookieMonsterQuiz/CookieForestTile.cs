@@ -1,7 +1,7 @@
 ﻿
 namespace CookieMonsterQuiz
 {
-    public class CookieMonsterTile
+    public class CookieForestTile
     {
         public const int TileHasThorns = -1;
 

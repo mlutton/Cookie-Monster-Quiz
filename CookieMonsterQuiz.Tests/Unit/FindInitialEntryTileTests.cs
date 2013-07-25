@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CookieMonsterQuiz.Tests.Utilities;
 using NUnit.Framework;
 
 namespace CookieMonsterQuiz.Tests.Unit
@@ -7,6 +8,9 @@ namespace CookieMonsterQuiz.Tests.Unit
     [TestFixture]
     class FindInitialEntryTileTests
     {
+        private const int InvalidXPositionValue = 9999;
+        private const int InvalidYPositionValue = 9999;
+
         private CookieForestParser _cookieForestParser;
 
         [SetUp]
@@ -25,13 +29,17 @@ namespace CookieMonsterQuiz.Tests.Unit
         public void TestThatFindInitialEntryTileThrowsWhenPassingInEmptyList()
         {
             Assert.Throws<ArgumentOutOfRangeException>(
-                () => _cookieForestParser.FindInitialEntryTile(new List<CookieMonsterTile>()));
+                () => _cookieForestParser.FindInitialEntryTile(new List<CookieForestTile>()));
         }
 
         [Test]
         public void TestThatFindInitialEntryTileThrowsWhenPassingInInvalidTileList()
         {
-            var invalidOneByOneForest = new List<CookieMonsterTile> {new CookieMonsterTile() {X = 9999, Y = 9999}};
+            var invalidOneByOneForest = ForestBuilder.BuildForestOfSize(1, 1);
+            
+            invalidOneByOneForest.ElementAtCoordinates(1, 1)
+                .SetTileXValueTo(InvalidXPositionValue)
+                .SetTileYValueTo(InvalidYPositionValue);
 
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => _cookieForestParser.FindInitialEntryTile(invalidOneByOneForest));
@@ -40,10 +48,9 @@ namespace CookieMonsterQuiz.Tests.Unit
         [Test]
         public void TestThatFindInitialEntryTileThrowsWhenPassingInAValidTileInTheListThatHasThorns()
         {
-            var validOneByOneForestWithThorns = new List<CookieMonsterTile>
-            {
-                new CookieMonsterTile() {X = 1, Y = 1, CookieCount = CookieMonsterTile.TileHasThorns}
-            };
+            var validOneByOneForestWithThorns = ForestBuilder.BuildForestOfSize(1, 1);
+
+            validOneByOneForestWithThorns.ElementAtCoordinates(1, 1).SetTileToHaveThorns();
 
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => _cookieForestParser.FindInitialEntryTile(validOneByOneForestWithThorns));
@@ -52,10 +59,19 @@ namespace CookieMonsterQuiz.Tests.Unit
         [Test]
         public void TestThatFindInitialEntryTileReturnsTileAt1X1()
         {
-            var validOneByOneForestWithThorns = new List<CookieMonsterTile>
-            {
-                new CookieMonsterTile() {X = 1, Y = 1, CookieCount = 0}
-            };
+            var validOneByOneForestWithThorns = ForestBuilder.BuildForestOfSize(1, 1);
+
+            var initialEntryTile = _cookieForestParser.FindInitialEntryTile(validOneByOneForestWithThorns);
+
+            Assert.That(initialEntryTile, Is.Not.Null);
+            Assert.That(initialEntryTile.X, Is.EqualTo(CookieForestParser.InitialXPosition));
+            Assert.That(initialEntryTile.Y, Is.EqualTo(CookieForestParser.InitialYPosition));
+        }
+
+        [Test]
+        public void TestThatFindInitialEntryTileReturnsTileAt1X1ForLargeList()
+        {
+            var validOneByOneForestWithThorns = ForestBuilder.BuildForestOfSize(10, 10);
 
             var initialEntryTile = _cookieForestParser.FindInitialEntryTile(validOneByOneForestWithThorns);
 

@@ -13,13 +13,13 @@ namespace CookieMonsterQuiz
             _cookieForestParser = cookieForestParser;
         }
 
-        public LinkedList<CookieMonsterTile> FindPathThroughForest(List<CookieMonsterTile> cookieMonsterTiles)
+        public LinkedList<CookieForestTile> FindPathThroughForest(List<CookieForestTile> cookieMonsterTiles)
         {
            if (cookieMonsterTiles == null)
                throw new ArgumentNullException("cookieMonsterTiles", "You can not pass null into FindPathThroughForest. " +
                    " Please pass in a valid list of cookie monster tiles");
 
-            var initialEntryCell = _cookieForestParser.FindInitialEntryTile(new List<CookieMonsterTile>());
+            var initialEntryCell = _cookieForestParser.FindInitialEntryTile(new List<CookieForestTile>());
             return null;
         }
     }
