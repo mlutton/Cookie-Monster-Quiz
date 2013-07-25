@@ -26,6 +26,11 @@ namespace CookieMonsterQuiz
             var cookieForestPath = new LinkedList<CookieForestTile>();
             cookieForestPath.AddLast(initialEntryCell);
 
+            if (completedMaze)
+            {
+                return cookieForestPath;
+            }
+
             var nextPossibleMove = _cookieForestParser.FindNextPossiblePath(cookieMonsterTiles, cookieForestPath);
 
             return null;
