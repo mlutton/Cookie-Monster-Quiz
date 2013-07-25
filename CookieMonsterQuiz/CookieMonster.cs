@@ -21,12 +21,14 @@ namespace CookieMonsterQuiz
                     "You can not pass null into FindPathThroughForest. " +
                     " Please pass in a valid list of cookie monster tiles");
 
+            var availableForestTiles = cookieMonsterTiles.ToList();
+
             var initialEntryCell = _cookieForestParser.FindInitialEntryTile(cookieMonsterTiles);
 
             var cookieForestPath = new LinkedList<CookieForestTile>();
             cookieForestPath.AddLast(initialEntryCell);
 
-            if (_cookieForestParser.HasCompletedMaze(cookieMonsterTiles, cookieForestPath.Last()))
+            if (_cookieForestParser.HasCompletedMaze(availableForestTiles, cookieForestPath.Last()))
             {
                 return cookieForestPath;
             }
@@ -34,9 +36,11 @@ namespace CookieMonsterQuiz
             var findNextPossiblePathResult = _cookieForestParser.FindNextPossiblePath(cookieMonsterTiles,
                 cookieForestPath);
 
+            availableForestTiles = findNextPossiblePathResult.AvailableTiles;
+
             cookieForestPath.AddLast(findNextPossiblePathResult.NextTile);
 
-            if (_cookieForestParser.HasCompletedMaze(cookieMonsterTiles, cookieForestPath.Last()))
+            if (_cookieForestParser.HasCompletedMaze(availableForestTiles, cookieForestPath.Last()))
             {
                 return cookieForestPath;
             }

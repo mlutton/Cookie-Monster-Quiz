@@ -17,6 +17,7 @@ namespace CookieMonsterQuiz
     public class FindNextPossiblePathResult
     {
         public CookieForestTile NextTile { get; set; }
+        public List<CookieForestTile> AvailableTiles { get; set; }
     }
 
     public class CookieForestParser: ICookieForestParser
@@ -47,7 +48,7 @@ namespace CookieMonsterQuiz
 
         public FindNextPossiblePathResult FindNextPossiblePath(List<CookieForestTile> cookieForestTiles, LinkedList<CookieForestTile> currentPathThroughForestTiles)
         {
-            var result = new FindNextPossiblePathResult();
+            var result = new FindNextPossiblePathResult() {AvailableTiles = cookieForestTiles};
             var currentTile = currentPathThroughForestTiles.Last();
 
             var tileToRight =
@@ -62,23 +63,28 @@ namespace CookieMonsterQuiz
                         c.Y == currentTile.GetYCoordinateToBottom() &&
                         c.X == currentTile.X & c.CookieCount != CookieForestTile.TileHasThorns);
 
+            if (tileToBottom == null && tileToRight == null)
+            {
+                var availableTimes = cookieForestTiles.ToList();
+                availableTimes.RemoveAll(c => c.X == currentTile.X && c.Y == currentTile.Y);
+                result.AvailableTiles = availableTimes;
 
-            if (tileToRight != null && tileToBottom == null)
+                currentPathThroughForestTiles.RemoveLast();
+                result.NextTile = currentPathThroughForestTiles.Last();
+
+            }
+            else if (tileToRight != null && tileToBottom == null)
             {
                 result.NextTile = tileToRight;
             }
-
-
             else if (tileToBottom != null && tileToRight == null)
             {
                 result.NextTile = tileToBottom;
             }
-
             else if (tileToRight.CookieCount > tileToBottom.CookieCount)
             {
                 result.NextTile = tileToRight;
             }
-            
             else if (tileToBottom.CookieCount >= tileToRight.CookieCount)
             {
                 result.NextTile = tileToBottom;

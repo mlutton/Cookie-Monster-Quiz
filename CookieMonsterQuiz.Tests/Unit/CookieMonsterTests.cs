@@ -33,7 +33,7 @@ namespace CookieMonsterQuiz.Tests.Unit
                     cf.FindNextPossiblePath(It.IsAny<List<CookieForestTile>>(), It.IsAny<LinkedList<CookieForestTile>>()))
                 .Returns(
                     (List<CookieForestTile> tileList, LinkedList<CookieForestTile> currentPath) =>
-                        new FindNextPossiblePathResult() { NextTile = tileList.ElementAtCoordinates(2,1)});
+                        new FindNextPossiblePathResult() { NextTile = tileList.ElementAtCoordinates(2,1), AvailableTiles = tileList});
 
             _cookieMonster = new CookieMonster(_cookieForestParserMock.Object);
             _oneByOneForest = ForestBuilder.BuildForestOfSize(1, 1);
