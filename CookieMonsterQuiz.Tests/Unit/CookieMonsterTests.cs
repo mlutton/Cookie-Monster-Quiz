@@ -13,6 +13,7 @@ namespace CookieMonsterQuiz.Tests.Unit
         private Mock<ICookieForestParser> _cookieForestParserMock;
         private CookieMonster _cookieMonster;
         private List<CookieForestTile> _oneByOneForest;
+        private List<CookieForestTile> _twoByTwoForest;
         
         [SetUp]
         public void Setup()
@@ -28,15 +29,22 @@ namespace CookieMonsterQuiz.Tests.Unit
                     (List<CookieForestTile> tileList, CookieForestTile tile) =>
                         tileList.Max(t => t.X) == tile.X);
 
+            _oneByOneForest = ForestBuilder.BuildForestOfSize(1, 1);
+            _twoByTwoForest = ForestBuilder.BuildForestOfSize(2, 2);
+
+            var currentPathForTwoByTwoForest = new LinkedList<CookieForestTile>();
+            currentPathForTwoByTwoForest.AddLast(_twoByTwoForest.ElementAtCoordinates(1, 1));
+            currentPathForTwoByTwoForest.AddLast(_twoByTwoForest.ElementAtCoordinates(2, 1));
+
             _cookieForestParserMock.Setup(
                 cf =>
                     cf.FindNextPossiblePath(It.IsAny<List<CookieForestTile>>(), It.IsAny<LinkedList<CookieForestTile>>()))
                 .Returns(
                     (List<CookieForestTile> tileList, LinkedList<CookieForestTile> currentPath) =>
-                        new FindNextPossiblePathResult() { NextTile = tileList.ElementAtCoordinates(2,1), AvailableTiles = tileList});
+                        new FindNextPossiblePathResult() { CurrentPath =currentPathForTwoByTwoForest, AvailableTiles = tileList});
 
             _cookieMonster = new CookieMonster(_cookieForestParserMock.Object);
-            _oneByOneForest = ForestBuilder.BuildForestOfSize(1, 1);
+
         }
 
         [Test]
@@ -75,7 +83,7 @@ namespace CookieMonsterQuiz.Tests.Unit
         [Test]
         public void TestThatFindPathThroughForestCallsFindNextPossiblePath()
         {
-            _cookieMonster.FindPathThroughForest(ForestBuilder.BuildForestOfSize(2,2));
+            _cookieMonster.FindPathThroughForest(_twoByTwoForest);
 
             _cookieForestParserMock.Verify(c => c.FindNextPossiblePath(It.IsAny<List<CookieForestTile>>(), It.IsAny<LinkedList<CookieForestTile>>()));
         }
@@ -83,7 +91,7 @@ namespace CookieMonsterQuiz.Tests.Unit
         [Test]
         public void TestThatFindPathThroughForestCallsHasCompletedMazeAfterFindNextPossiblePath()
         {
-            _cookieMonster.FindPathThroughForest(ForestBuilder.BuildForestOfSize(2, 2));
+            _cookieMonster.FindPathThroughForest(_twoByTwoForest);
 
             _cookieForestParserMock.Verify(c => c.HasCompletedMaze(It.IsAny<List<CookieForestTile>>(), It.Is((CookieForestTile ctx) => ctx.X == 2)));
         }

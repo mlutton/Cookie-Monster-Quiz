@@ -27,21 +27,28 @@ namespace CookieMonsterQuiz
 
             var cookieForestPath = new LinkedList<CookieForestTile>();
 
+            return FindPathThroughForestLoop(nextAvailableMove, cookieForestPath, availableForestTiles);
+        }
+
+        private LinkedList<CookieForestTile> FindPathThroughForestLoop(CookieForestTile nextAvailableMove, LinkedList<CookieForestTile> cookieForestPath,
+            List<CookieForestTile> availableForestTiles)
+        {
+            cookieForestPath.AddLast(nextAvailableMove);
+
             while (nextAvailableMove != null)
             {
-                cookieForestPath.AddLast(nextAvailableMove);
-
                 if (_cookieForestParser.HasCompletedMaze(availableForestTiles, cookieForestPath.Last()))
                 {
                     return cookieForestPath;
                 }
 
-                var findNextPossiblePathResult = _cookieForestParser.FindNextPossiblePath(cookieMonsterTiles,
+                var findNextPossiblePathResult = _cookieForestParser.FindNextPossiblePath(availableForestTiles,
                     cookieForestPath);
 
                 availableForestTiles = findNextPossiblePathResult.AvailableTiles;
+                cookieForestPath = findNextPossiblePathResult.CurrentPath;
 
-                nextAvailableMove = findNextPossiblePathResult.NextTile;
+                nextAvailableMove = cookieForestPath.Count == 0 ? null : cookieForestPath.Last();
             }
 
             return null;

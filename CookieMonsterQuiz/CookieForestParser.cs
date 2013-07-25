@@ -16,7 +16,7 @@ namespace CookieMonsterQuiz
 
     public class FindNextPossiblePathResult
     {
-        public CookieForestTile NextTile { get; set; }
+        public LinkedList<CookieForestTile> CurrentPath { get; set; }
         public List<CookieForestTile> AvailableTiles { get; set; }
     }
 
@@ -70,25 +70,26 @@ namespace CookieMonsterQuiz
                 result.AvailableTiles = availableTimes;
 
                 currentPathThroughForestTiles.RemoveLast();
-                result.NextTile = currentPathThroughForestTiles.Last();
 
             }
             else if (tileToRight != null && tileToBottom == null)
             {
-                result.NextTile = tileToRight;
+                currentPathThroughForestTiles.AddLast(tileToRight);
             }
             else if (tileToBottom != null && tileToRight == null)
             {
-                result.NextTile = tileToBottom;
+                currentPathThroughForestTiles.AddLast(tileToBottom);
             }
             else if (tileToRight.CookieCount > tileToBottom.CookieCount)
             {
-                result.NextTile = tileToRight;
+                currentPathThroughForestTiles.AddLast(tileToRight);
             }
             else if (tileToBottom.CookieCount >= tileToRight.CookieCount)
             {
-                result.NextTile = tileToBottom;
+                currentPathThroughForestTiles.AddLast(tileToBottom);
             }
+
+            result.CurrentPath = currentPathThroughForestTiles;
 
             return result;
         }

@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Integration\12TileForestTests.cs" />
+    <Compile Include="Integration\TwelveTileForestTests.cs" />
     <Compile Include="Integration\OnebyOneForestTests.cs" />
     <Compile Include="Integration\TwoTileForestTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CookieMonsterQuiz.Tests.Utilities;
+﻿using CookieMonsterQuiz.Tests.Utilities;
 using NUnit.Framework;
 
 namespace CookieMonsterQuiz.Tests.Integration
 {
     [TestFixture]
-    class _12TileForestTests
+    class TwelveTileForestTests
     {
         [Test]
         public void TestThatForestWithMazeCompletesSuccessfully()

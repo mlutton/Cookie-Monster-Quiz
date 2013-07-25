@@ -18,8 +18,9 @@ namespace CookieMonsterQuiz.Tests.Unit
 
             var result = cookieForestParser.FindNextPossiblePath(twoByOneForest, initialPath);
 
-            Assert.That(result.NextTile.X, Is.EqualTo(2));
-            Assert.That(result.NextTile.Y, Is.EqualTo(1));
+            Assert.That(result.CurrentPath, Has.Count.EqualTo(2));
+            Assert.That(result.CurrentPath.Last.Value.X, Is.EqualTo(2));
+            Assert.That(result.CurrentPath.Last.Value.Y, Is.EqualTo(1));
         }
 
         [Test]
@@ -33,8 +34,9 @@ namespace CookieMonsterQuiz.Tests.Unit
 
             var result = cookieForestParser.FindNextPossiblePath(oneByTwoForest, initialPath);
 
-            Assert.That(result.NextTile.X, Is.EqualTo(1));
-            Assert.That(result.NextTile.Y, Is.EqualTo(2));
+            Assert.That(result.CurrentPath, Has.Count.EqualTo(2));
+            Assert.That(result.CurrentPath.Last.Value.X, Is.EqualTo(1));
+            Assert.That(result.CurrentPath.Last.Value.Y, Is.EqualTo(2));
         }
 
         [Test]
@@ -47,11 +49,11 @@ namespace CookieMonsterQuiz.Tests.Unit
             var initialPath = new LinkedList<CookieForestTile>();
             initialPath.AddLast(twoByTwoForest.ElementAtCoordinates(1, 1));
 
-
             var result = cookieForestParser.FindNextPossiblePath(twoByTwoForest, initialPath);
 
-            Assert.That(result.NextTile.X, Is.EqualTo(2));
-            Assert.That(result.NextTile.Y, Is.EqualTo(1));
+            Assert.That(result.CurrentPath, Has.Count.EqualTo(2));
+            Assert.That(result.CurrentPath.Last.Value.X, Is.EqualTo(2));
+            Assert.That(result.CurrentPath.Last.Value.Y, Is.EqualTo(1));
         }
 
         [Test]
@@ -66,8 +68,9 @@ namespace CookieMonsterQuiz.Tests.Unit
 
             var result = cookieForestParser.FindNextPossiblePath(twoByTwoForest, initialPath);
 
-            Assert.That(result.NextTile.X, Is.EqualTo(1));
-            Assert.That(result.NextTile.Y, Is.EqualTo(2));
+            Assert.That(result.CurrentPath, Has.Count.EqualTo(2));
+            Assert.That(result.CurrentPath.Last.Value.X, Is.EqualTo(1));
+            Assert.That(result.CurrentPath.Last.Value.Y, Is.EqualTo(2));
         }
 
         [Test]
@@ -82,8 +85,9 @@ namespace CookieMonsterQuiz.Tests.Unit
 
             var result = cookieForestParser.FindNextPossiblePath(twoByTwoForest, initialPath);
 
-            Assert.That(result.NextTile.X, Is.EqualTo(2));
-            Assert.That(result.NextTile.Y, Is.EqualTo(1));
+            Assert.That(result.CurrentPath, Has.Count.EqualTo(2));
+            Assert.That(result.CurrentPath.Last.Value.X, Is.EqualTo(2));
+            Assert.That(result.CurrentPath.Last.Value.Y, Is.EqualTo(1));
         }
 
         [Test]
@@ -98,12 +102,13 @@ namespace CookieMonsterQuiz.Tests.Unit
 
             var result = cookieForestParser.FindNextPossiblePath(twoByTwoForest, initialPath);
 
-            Assert.That(result.NextTile.X, Is.EqualTo(1));
-            Assert.That(result.NextTile.Y, Is.EqualTo(2));
+            Assert.That(result.CurrentPath, Has.Count.EqualTo(2));
+            Assert.That(result.CurrentPath.Last.Value.X, Is.EqualTo(1));
+            Assert.That(result.CurrentPath.Last.Value.Y, Is.EqualTo(2));
         }
 
         [Test]
-        public void TestThatFindNextPossiblePathReturnsPreviousTileIfAtDeadEnd()
+        public void TestThatFindNextPossiblePathReturnsPreviousTileAsLastIfAtDeadEnd()
         {
             var cookieForestParser = new CookieForestParser();
             var fourByThreeForest = ForestBuilder.BuildForestOfSize(4, 3);
@@ -128,8 +133,8 @@ namespace CookieMonsterQuiz.Tests.Unit
 
             var result = cookieForestParser.FindNextPossiblePath(fourByThreeForest, initialPath);
 
-            Assert.That(result.NextTile.X, Is.EqualTo(fourByThreeForest.ElementAtCoordinates(2, 1).X));
-            Assert.That(result.NextTile.Y, Is.EqualTo(fourByThreeForest.ElementAtCoordinates(2, 1).Y));
+            Assert.That(result.CurrentPath.Last.Value.X, Is.EqualTo(fourByThreeForest.ElementAtCoordinates(2, 1).X));
+            Assert.That(result.CurrentPath.Last.Value.Y, Is.EqualTo(fourByThreeForest.ElementAtCoordinates(2, 1).Y));
 
         }
 
