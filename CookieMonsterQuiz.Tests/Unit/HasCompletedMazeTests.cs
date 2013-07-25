@@ -7,13 +7,20 @@ namespace CookieMonsterQuiz.Tests.Unit
     [TestFixture]
     class HasCompletedMazeTests
     {
+        private CookieForestParser _cookieForestParser;
+
+        [SetUp]
+        public void Setup()
+        {
+            _cookieForestParser = new CookieForestParser();
+        }
+
         [Test]
         public void TestThatHasCompletedMazeReturnsTrueIfListIsAOneByOneForest()
         {
-            var cookieForestParser = new CookieForestParser();
             var oneByOneForest = ForestBuilder.BuildForestOfSize(1, 1);
 
-            var isOnEdgeOfForest = cookieForestParser.HasCompletedMaze(oneByOneForest, oneByOneForest.First());
+            var isOnEdgeOfForest = _cookieForestParser.HasCompletedMaze(oneByOneForest, oneByOneForest.First());
 
             Assert.That(isOnEdgeOfForest, Is.True);
         }
@@ -21,10 +28,9 @@ namespace CookieMonsterQuiz.Tests.Unit
         [Test]
         public void TestThatHasCompletedMazeReturnsFalseIfListIsATwoByOneForest()
         {
-            var cookieForestParser = new CookieForestParser();
             var twoByOneForest = ForestBuilder.BuildForestOfSize(2, 1);
 
-            var isOnEdgeOfForest = cookieForestParser.HasCompletedMaze(twoByOneForest, twoByOneForest.First());
+            var isOnEdgeOfForest = _cookieForestParser.HasCompletedMaze(twoByOneForest, twoByOneForest.First());
 
             Assert.That(isOnEdgeOfForest, Is.False);
         }
@@ -32,12 +38,11 @@ namespace CookieMonsterQuiz.Tests.Unit
         [Test]
         public void TestThatHasCompletedMazeReturnsTrueIfListIsATwoByOneForestAndCurrentTileIsOnEdge()
         {
-            var cookieForestParser = new CookieForestParser();
             var twoByOneForest = ForestBuilder.BuildForestOfSize(2, 1);
 
             var edgeTile = twoByOneForest.Second();
 
-            var isOnEdgeOfForest = cookieForestParser.HasCompletedMaze(twoByOneForest,edgeTile);
+            var isOnEdgeOfForest = _cookieForestParser.HasCompletedMaze(twoByOneForest,edgeTile);
 
             Assert.That(isOnEdgeOfForest, Is.True);
         }
