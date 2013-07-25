@@ -23,6 +23,11 @@ namespace CookieMonsterQuiz
 
             var completedMaze = _cookieForestParser.HasCompletedMaze(cookieMonsterTiles, initialEntryCell);
 
+            var cookieForestPath = new LinkedList<CookieForestTile>();
+            cookieForestPath.AddLast(initialEntryCell);
+
+            var nextPossibleMove = _cookieForestParser.FindNextPossiblePath(cookieMonsterTiles, cookieForestPath);
+
             return null;
         }
     }

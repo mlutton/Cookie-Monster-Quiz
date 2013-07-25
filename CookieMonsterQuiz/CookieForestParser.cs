@@ -9,6 +9,13 @@ namespace CookieMonsterQuiz
     {
         CookieForestTile FindInitialEntryTile(List<CookieForestTile> cookieMonsterTiles);
         bool HasCompletedMaze(List<CookieForestTile> cookieForestTiles, CookieForestTile currentTile);
+
+        FindNextPossiblePathResult FindNextPossiblePath(List<CookieForestTile> list, LinkedList<CookieForestTile> currentPathThroughForestTiles);
+    }
+
+    public class FindNextPossiblePathResult
+    {
+        
     }
 
     public class CookieForestParser: ICookieForestParser
@@ -35,6 +42,11 @@ namespace CookieMonsterQuiz
         public bool HasCompletedMaze(List<CookieForestTile> cookieForestTiles, CookieForestTile currentTile)
         {
             return cookieForestTiles.Max(c => c.X) == currentTile.X;
+        }
+
+        public FindNextPossiblePathResult FindNextPossiblePath(List<CookieForestTile> list, LinkedList<CookieForestTile> currentPathThroughForestTiles)
+        {
+            throw new NotImplementedException();
         }
     }
 }

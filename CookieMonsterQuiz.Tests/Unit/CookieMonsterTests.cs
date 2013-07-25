@@ -39,5 +39,13 @@ namespace CookieMonsterQuiz.Tests.Unit
 
             _cookieForestParserMock.Verify(c => c.HasCompletedMaze(It.IsAny<List<CookieForestTile>>(), It.IsAny<CookieForestTile>()));
         }
+
+        [Test]
+        public void TestThatFindPathThroughForestCallsFindNextPossiblePath()
+        {
+            _cookieMonster.FindPathThroughForest(new List<CookieForestTile>());
+
+            _cookieForestParserMock.Verify(c => c.FindNextPossiblePath(It.IsAny<List<CookieForestTile>>(), It.IsAny<LinkedList<CookieForestTile>>()));
+        }
     }
 }
