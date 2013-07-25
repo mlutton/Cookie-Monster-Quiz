@@ -8,44 +8,46 @@ namespace CookieMonsterQuiz.Tests.Unit
     [TestFixture]
     class FindInitialEntryTileTests
     {
+        private CookieForestParser _cookieForestParser;
+
+        [SetUp]
+        public void Setup()
+        {
+            _cookieForestParser = new CookieForestParser();
+        }
+
         [Test]
         public void TestThatFindIntialEntryTileThrowsWhenPassingInNull()
         {
-            var cookieForestParser = new CookieForestParser();
-
-            Assert.Throws<ArgumentNullException>(() => cookieForestParser.FindInitialEntryTile(null));
+            Assert.Throws<ArgumentNullException>(() => _cookieForestParser.FindInitialEntryTile(null));
         }
 
         [Test]
         public void TestThatFindInitialEntryTileThrowsWhenPassingInEmptyList()
         {
-            var cookieForestParser = new CookieForestParser();
-
             Assert.Throws<ArgumentOutOfRangeException>(
-                () => cookieForestParser.FindInitialEntryTile(new List<CookieMonsterTile>()));
+                () => _cookieForestParser.FindInitialEntryTile(new List<CookieMonsterTile>()));
         }
 
         [Test]
         public void TestThatFindInitialEntryTileThrowsWhenPassingInInvalidTileList()
         {
-            var cookieForestParser = new CookieForestParser();
             var invalidOneByOneForest = new List<CookieMonsterTile> {new CookieMonsterTile() {X = 9999, Y = 9999}};
 
             Assert.Throws<ArgumentOutOfRangeException>(
-                () => cookieForestParser.FindInitialEntryTile(invalidOneByOneForest));
+                () => _cookieForestParser.FindInitialEntryTile(invalidOneByOneForest));
         }
 
         [Test]
         public void TestThatFindInitialEntryTileThrowsWhenPassingInAValidTileInTheListThatHasThorns()
         {
-            var cookieForestParser = new CookieForestParser();
             var validOneByOneForestWithThorns = new List<CookieMonsterTile>
             {
                 new CookieMonsterTile() {X = 1, Y = 1, CookieCount = CookieMonsterTile.TileHasThorns}
             };
 
             Assert.Throws<ArgumentOutOfRangeException>(
-                () => cookieForestParser.FindInitialEntryTile(validOneByOneForestWithThorns));
+                () => _cookieForestParser.FindInitialEntryTile(validOneByOneForestWithThorns));
         }
     }
 }
