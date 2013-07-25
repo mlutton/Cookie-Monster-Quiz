@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 
@@ -48,6 +47,21 @@ namespace CookieMonsterQuiz.Tests.Unit
 
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => _cookieForestParser.FindInitialEntryTile(validOneByOneForestWithThorns));
+        }
+
+        [Test]
+        public void TestThatFindInitialEntryTileReturnsTileAt1X1()
+        {
+            var validOneByOneForestWithThorns = new List<CookieMonsterTile>
+            {
+                new CookieMonsterTile() {X = 1, Y = 1, CookieCount = 0}
+            };
+
+            var initialEntryTile = _cookieForestParser.FindInitialEntryTile(validOneByOneForestWithThorns);
+
+            Assert.That(initialEntryTile, Is.Not.Null);
+            Assert.That(initialEntryTile.X, Is.EqualTo(CookieForestParser.InitialXPosition));
+            Assert.That(initialEntryTile.Y, Is.EqualTo(CookieForestParser.InitialYPosition));
         }
     }
 }
