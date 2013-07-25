@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CookieMonsterQuiz
 {
@@ -15,23 +16,30 @@ namespace CookieMonsterQuiz
 
         public LinkedList<CookieForestTile> FindPathThroughForest(List<CookieForestTile> cookieMonsterTiles)
         {
-           if (cookieMonsterTiles == null)
-               throw new ArgumentNullException("cookieMonsterTiles", "You can not pass null into FindPathThroughForest. " +
-                   " Please pass in a valid list of cookie monster tiles");
+            if (cookieMonsterTiles == null)
+                throw new ArgumentNullException("cookieMonsterTiles",
+                    "You can not pass null into FindPathThroughForest. " +
+                    " Please pass in a valid list of cookie monster tiles");
 
             var initialEntryCell = _cookieForestParser.FindInitialEntryTile(cookieMonsterTiles);
-
-            var completedMaze = _cookieForestParser.HasCompletedMaze(cookieMonsterTiles, initialEntryCell);
 
             var cookieForestPath = new LinkedList<CookieForestTile>();
             cookieForestPath.AddLast(initialEntryCell);
 
-            if (completedMaze)
+            if (_cookieForestParser.HasCompletedMaze(cookieMonsterTiles, cookieForestPath.Last()))
             {
                 return cookieForestPath;
             }
 
-            var nextPossibleMove = _cookieForestParser.FindNextPossiblePath(cookieMonsterTiles, cookieForestPath);
+            var findNextPossiblePathResult = _cookieForestParser.FindNextPossiblePath(cookieMonsterTiles,
+                cookieForestPath);
+
+            cookieForestPath.AddLast(findNextPossiblePathResult.NextTile);
+
+            if (_cookieForestParser.HasCompletedMaze(cookieMonsterTiles, cookieForestPath.Last()))
+            {
+                return cookieForestPath;
+            }
 
             return null;
         }

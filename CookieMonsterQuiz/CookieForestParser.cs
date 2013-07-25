@@ -15,7 +15,7 @@ namespace CookieMonsterQuiz
 
     public class FindNextPossiblePathResult
     {
-        
+        public CookieForestTile NextTile { get; set; }
     }
 
     public class CookieForestParser: ICookieForestParser
